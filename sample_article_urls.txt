@@ -1,0 +1,68 @@
+================================================================================
+ROCKYBOT AI - RECOMMENDED FREE ARTICLE URLS FOR RESEARCH
+================================================================================
+
+Below is a curated list of free, publicly accessible article URLs verified to work
+seamlessly with RockyBot (no paywalls, no bot-blocking, clean text extraction).
+
+--------------------------------------------------------------------------------
+1. INDIAN MARKETS & BUSINESS (MoneyControl)
+--------------------------------------------------------------------------------
+# Tata Motors EV & Production Incentives
+https://www.moneycontrol.com/news/business/tata-motors-mahindra-gain-certificates-for-production-linked-payouts-11281691.html
+
+# Tata Motors Punch iCNG Launch
+https://www.moneycontrol.com/news/business/tata-motors-launches-punch-icng-price-starts-at-rs-7-1-lakh-11098751.html
+
+# Tata Motors Analyst Target & Brokerage View
+https://www.moneycontrol.com/news/business/stocks/buy-tata-motors-target-of-rs-743-kr-choksey-11080811.html
+
+--------------------------------------------------------------------------------
+2. TECH, AI & HARDWARE INTELLIGENCE (Wikipedia & Tech Publications)
+--------------------------------------------------------------------------------
+# Nvidia Corporation - Company Overview, GPUs & AI Architecture
+https://en.wikipedia.org/wiki/Nvidia
+
+# Artificial Intelligence in Finance Overview
+https://en.wikipedia.org/wiki/Artificial_intelligence
+
+# Semiconductor Industry History & Key Players
+https://en.wikipedia.org/wiki/Semiconductor_industry
+
+--------------------------------------------------------------------------------
+3. GLOBAL BUSINESS & MACROECONOMICS (BBC & Associated Press)
+--------------------------------------------------------------------------------
+# BBC News - Business & Markets Section
+https://www.bbc.com/news/business
+
+# Associated Press (AP News) - Financial & Corporate Wire
+https://apnews.com/hub/business
+
+--------------------------------------------------------------------------------
+4. US EQUITY & TECH EARNINGS (CNBC & Yahoo Finance)
+--------------------------------------------------------------------------------
+# CNBC World Markets & Business News
+https://www.cnbc.com/world/?region=world
+
+# Yahoo Finance - Breaking News & Market Analysis
+https://finance.yahoo.com/news/
+
+--------------------------------------------------------------------------------
+5. STARTUPS, VENTURE CAPITAL & BIG TECH (TechCrunch & The Verge)
+--------------------------------------------------------------------------------
+# TechCrunch - Artificial Intelligence News Hub
+https://techcrunch.com/category/artificial-intelligence/
+
+# The Verge - Technology & Semiconductor Coverage
+https://www.theverge.com/tech
+
+================================================================================
+TIPS FOR BEST RESULTS:
+================================================================================
+1. You can paste just 1 single link, or click "+ Add Another URL" to cross-reference multiple links.
+2. In the web interface (http://localhost:8000), you can also click the quick sample buttons:
+   - "Nvidia (Wikipedia Overview)"
+   - "Tata Motors News"
+   - "Multi-Article (Tata Motors)"
+3. Avoid paywalled sites like Bloomberg, The Wall Street Journal (WSJ), and Seeking Alpha.
+================================================================================

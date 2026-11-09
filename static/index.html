@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RockyBot AI | Intelligent News & Financial Research Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Main Container -->
+  <div class="app-wrapper">
+    <!-- Header Navigation -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <div class="brand-meta">
+          <div class="brand-title-row">
+            <h1 class="brand-title">RockyBot <span>AI</span></h1>
+            <span class="badge badge-accent">RAG 2.0</span>
+          </div>
+          <p class="brand-subtitle">Financial & News Intelligence powered by Google Gemini</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div id="system-status-badge" class="status-indicator">
+          <span class="status-dot"></span>
+          <span id="system-status-text">Checking API...</span>
+        </div>
+        <button id="reset-workspace-btn" class="btn btn-ghost btn-sm" title="Clear current vector index and start fresh">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+            <path d="M21 3v5h-5"></path>
+            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+            <path d="M3 21v-5h5"></path>
+          </svg>
+          Reset Index
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Layout -->
+    <main class="workspace-grid">
+      <!-- Left Panel: Article Ingestion & Knowledge Base -->
+      <section class="panel panel-sources">
+        <div class="panel-header">
+          <div class="step-tag">Step 1</div>
+          <h2 class="panel-title">Add News Articles</h2>
+          <p class="panel-desc">Paste <strong>1 or more</strong> article links. No forced limits—cross-reference multiple sources whenever you wish.</p>
+        </div>
+
+        <!-- Dynamic URLs Container -->
+        <div class="sources-form-container">
+          <div class="url-inputs-list" id="url-inputs-list">
+            <!-- URL Input Row 1 (Default) -->
+            <div class="url-input-row" data-index="0">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+              </div>
+              <input 
+                type="url" 
+                class="form-control url-input" 
+                placeholder="https://example.com/financial-news-article" 
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button type="button" class="btn-remove-url" title="Remove URL" style="display: none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- URL Action Controls -->
+          <div class="url-controls">
+            <button type="button" id="add-url-btn" class="btn btn-secondary btn-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add Another URL
+            </button>
+            <span class="url-counter" id="url-count-indicator">1 link entered</span>
+          </div>
+
+          <!-- Sample Links Picker -->
+          <div class="samples-container">
+            <span class="samples-label">⚡ Try Quick Samples:</span>
+            <div class="sample-chips">
+              <button type="button" class="chip-btn" data-sample="nvidia">Nvidia (Wikipedia Overview)</button>
+              <button type="button" class="chip-btn" data-sample="tata">Tata Motors News</button>
+              <button type="button" class="chip-btn" data-sample="multi">Multi-Article (Tata Motors)</button>
+            </div>
+          </div>
+
+          <!-- Submit Process Button -->
+          <button id="process-urls-btn" class="btn btn-primary btn-block">
+            <span class="btn-text">Build Knowledge Index</span>
+            <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Ingestion Progress Modal/Card -->
+        <div id="ingestion-progress-card" class="progress-card" style="display: none;">
+          <div class="progress-card-header">
+            <span class="spinner"></span>
+            <span id="progress-card-title">Processing Content...</span>
+          </div>
+          <div class="progress-steps-list">
+            <div class="step-item" id="step-fetch">
+              <span class="step-icon">1</span>
+              <span class="step-label">Fetching Web Content & Inspecting Bot Blocks</span>
+            </div>
+            <div class="step-item" id="step-chunk">
+              <span class="step-icon">2</span>
+              <span class="step-label">Splitting Text into 1,000-character Chunks</span>
+            </div>
+            <div class="step-item" id="step-embed">
+              <span class="step-icon">3</span>
+              <span class="step-label">Generating Gemini Vector Embeddings (1536-D)</span>
+            </div>
+            <div class="step-item" id="step-faiss">
+              <span class="step-icon">4</span>
+              <span class="step-label">Indexing & Saving to FAISS Local Vector Store</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Knowledge Base Card -->
+        <div id="active-knowledge-card" class="active-sources-card" style="display: none;">
+          <div class="active-sources-header">
+            <div class="card-icon-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="active-card-title">Active Knowledge Index</h4>
+              <p class="active-card-meta" id="active-index-stats">0 articles | 0 vectors</p>
+            </div>
+          </div>
+          <ul class="active-sources-list" id="active-sources-list"></ul>
+        </div>
+      </section>
+
+      <!-- Right Panel: Research & Synthesis Hub -->
+      <section class="panel panel-research">
+        <div class="panel-header">
+          <div class="step-tag">Step 2</div>
+          <h2 class="panel-title">Ask & Analyze</h2>
+          <p class="panel-desc">Query your indexed articles. RockyBot provides precise answers with full citation links.</p>
+        </div>
+
+        <!-- Prompt Suggestions -->
+        <div class="prompts-suggestion-row">
+          <span class="prompts-label">Quick Prompts:</span>
+          <div class="prompts-chips-wrapper">
+            <button class="prompt-chip" data-prompt="What are the key financial highlights and major developments reported?">📊 Key Highlights</button>
+            <button class="prompt-chip" data-prompt="What potential risks, challenges, or regulatory hurdles are mentioned?">⚠️ Risks & Hurdles</button>
+            <button class="prompt-chip" data-prompt="What are the strategic growth plans or expansion targets?">🚀 Growth Plans</button>
+            <button class="prompt-chip" data-prompt="Provide a concise 3-bullet summary of the core message.">📝 3-Bullet Summary</button>
+          </div>
+        </div>
+
+        <!-- Question Input Box -->
+        <div class="query-box-container">
+          <div class="query-input-wrapper">
+            <textarea 
+              id="query-input" 
+              class="query-textarea" 
+              rows="3" 
+              placeholder="Ask anything about the indexed news articles... (e.g., 'What was the reported revenue impact?')"
+            ></textarea>
+            <div class="query-actions-bar">
+              <span class="query-hint">Press <strong>Enter</strong> to ask</span>
+              <button id="submit-query-btn" class="btn btn-primary btn-sm">
+                <span>Ask RockyBot</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State View -->
+        <div id="qa-empty-state" class="empty-state">
+          <div class="empty-state-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <h3 class="empty-state-title">Ready for Your Research</h3>
+          <p class="empty-state-desc">Index one or more articles on the left, then ask targeted questions to extract insights without reading through pages of text.</p>
+        </div>
+
+        <!-- Loading Skeleton -->
+        <div id="qa-loading-view" class="qa-loading-view" style="display: none;">
+          <div class="shimmer-card">
+            <div class="shimmer-header">
+              <div class="shimmer-pill"></div>
+              <div class="shimmer-line short"></div>
+            </div>
+            <div class="shimmer-line"></div>
+            <div class="shimmer-line"></div>
+            <div class="shimmer-line medium"></div>
+            <div class="shimmer-footer">
+              <div class="shimmer-badge"></div>
+              <div class="shimmer-badge"></div>
+            </div>
+          </div>
+          <div class="loading-status-text">Synthesizing insights using Gemini Flash Lite...</div>
+        </div>
+
+        <!-- QA Output Card -->
+        <div id="qa-result-container" class="result-container" style="display: none;">
+          <div class="result-card">
+            <div class="result-header">
+              <div class="result-title-group">
+                <span class="badge badge-success">Verified Insight</span>
+                <span class="result-timestamp" id="result-timestamp">Just now</span>
+              </div>
+              <button id="copy-answer-btn" class="btn btn-ghost btn-xs" title="Copy answer to clipboard">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span id="copy-btn-text">Copy</span>
+              </button>
+            </div>
+
+            <!-- Answer Body -->
+            <div class="result-body" id="result-answer-text"></div>
+
+            <!-- Sources Citation Shelf -->
+            <div class="result-sources-section">
+              <div class="sources-label-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span>Verified Source Citations:</span>
+              </div>
+              <div class="sources-pills-list" id="result-sources-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Global Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
